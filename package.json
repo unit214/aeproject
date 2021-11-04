@@ -1,0 +1,27 @@
+{
+  "name": "aeproject",
+  "version": "4.0.0-alpha1",
+  "description": "",
+  "bin": {
+    "aeproject": "./src/cli.js"
+  },
+  "scripts": {
+    "lint": "eslint .",
+    "lint:fix": "eslint --ext .js --fix .",
+    "lint:ci": "eslint --ext .js --max-warnings=0 ."
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@aeternity/aepp-sdk": "^9.0.1",
+    "axios": "^0.24.0",
+    "commander": "^8.3.0",
+    "promisify-child-process": "^4.1.1",
+    "prompts": "^2.4.2"
+  },
+  "devDependencies": {
+    "eslint": "^7.32.0",
+    "eslint-config-airbnb-base": "^14.2.1",
+    "eslint-plugin-import": "^2.25.2"
+  }
+}

@@ -1,17 +1,15 @@
-const compile = require('./compile/compile');
-const init = require('./init/init');
-const testConfig = require('./test/test');
-const env = require('./env/env/env');
-const node = require('./env/env/node/node');
-const compiler = require('./env/env/compiler/compiler');
-const deploy = require('./deploy/deploy');
-const config = require('./config');
+const compile = require('../compile/compile');
+const init = require('../init/init');
+const testConfig = require('../test/test');
+const env = require('../env/env/env');
+const node = require('../env/env/node/node');
+const compiler = require('../env/env/compiler/compiler');
+const deploy = require('../deploy/deploy');
+const config = require('../config/node-config.json');
 
 const dockerIp = config.nodeConfiguration.dockerMachineIP;
-const exportConfig = require('./export/export-config');
-const aeprojectConfigDefaultFileName = require('./export/constants').aeprojectConfigFileName;
-const txInspector = require('./tx-inspector/tx-inspector');
-const compatibility = require('./compatibility/compatibility');
+const txInspector = require('../tx-inspector/tx-inspector');
+const compatibility = require('../compatibility/compatibility');
 
 const nodeConfig = config.nodeConfiguration;
 const compilerConfig = config.compilerConfiguration;
@@ -104,16 +102,6 @@ const addDeployOption = (program) => {
     });
 };
 
-const addExportConfigOption = (program) => {
-  program
-    .command('export-config')
-    .description('Export miner account, few funded accounts  and default node configuration.')
-    .option('--path [export path]', 'Path to export config file', aeprojectConfigDefaultFileName)
-    .action(async (options) => {
-      await exportConfig.run(options);
-    });
-};
-
 const addTxInspector = (program) => {
   program
     .command('inspect <tx>')
@@ -147,7 +135,6 @@ const initCommands = (program) => {
   addNodeOption(program);
   addCompilerOption(program);
   addDeployOption(program);
-  addExportConfigOption(program);
   addTxInspector(program);
   addCompatibility(program);
 };

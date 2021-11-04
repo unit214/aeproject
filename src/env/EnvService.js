@@ -1,21 +1,20 @@
 // TODO replace nodeStore/Service
-const { exec, spawn } = require('promisify-child-process');
+const {exec, spawn} = require('promisify-child-process');
 
 const fs = require('fs');
 const path = require('path');
-const {print, readSpawnOutput, readErrorSpawnOutput, sleep, capitalize,} = require('../utils');
-const utils = require('../utils');
+const {print, readSpawnOutput, readErrorSpawnOutput, sleep, capitalize} = require('../utils/utils');
+const {getClient} = require('../utils/utils');
 
-const nodeConfig = require('../config');
+const nodeConfig = require('../config/node-config.json');
+const config = require('../config/config.json');
 
-const { config } = nodeConfig;
-
-const { defaultWallets } = nodeConfig;
-let network = nodeConfig.localhostParams;
-network.compilerUrl = nodeConfig.localhostParams.compilerUrl;
+const {defaultWallets} = nodeConfig;
+let network = config.localhostParams;
+network.compilerUrl = config.localhostParams.compilerUrl;
 
 const compilerConfigs = nodeConfig.compilerConfiguration;
-const { nodeConfiguration } = nodeConfig;
+const {nodeConfiguration} = nodeConfig;
 
 const DEFAULT_COMPILER_PORT = 3080;
 const DEFAULT_NODE_PORT = 3001;
@@ -231,17 +230,22 @@ class EnvService {
     if (isWindowsPlatform) {
       if (!this._unit && nodePath && compilerPath) {
         return exec(`docker-compose -f ${nodePath} -f ${compilerPath} ps`, options);
-      } if (this._unit.indexOf('node') >= 0 && nodePath) {
+      }
+      if (this._unit.indexOf('node') >= 0 && nodePath) {
         return exec(`docker-compose -f ${nodePath} ps`, options);
-      } if (this._unit.indexOf('compiler') >= 0 && compilerPath) {
+      }
+      if (this._unit.indexOf('compiler') >= 0 && compilerPath) {
         return exec(`docker-compose -f ${compilerPath} ps`, options);
       }
       return exec('docker-compose -f docker-compose.yml -f docker-compose.compiler.yml ps', options);
-    } if (!this._unit && nodePath && compilerPath) {
+    }
+    if (!this._unit && nodePath && compilerPath) {
       return exec(`${DefaultColumnVariable} && docker-compose -f ${nodePath} -f ${compilerPath} ps`, options);
-    } if (this._unit.indexOf('node') >= 0 && nodePath) {
+    }
+    if (this._unit.indexOf('node') >= 0 && nodePath) {
       return exec(`${DefaultColumnVariable} && docker-compose -f ${nodePath} ps`, options);
-    } if (this._unit.indexOf('compiler') >= 0 && compilerPath) {
+    }
+    if (this._unit.indexOf('compiler') >= 0 && compilerPath) {
       return exec(`${DefaultColumnVariable} && docker-compose -f ${compilerPath} ps`, options);
     }
     return exec(`${DefaultColumnVariable} && docker-compose -f docker-compose.yml -f docker-compose.compiler.yml ps`, options);
@@ -369,7 +373,7 @@ class EnvService {
 
     let walletIndex = 0;
 
-    const client = await utils.getClient(network);
+    const client = await getClient(network);
     await this.printBeneficiaryKey(client);
     for (const wallet in defaultWallets) {
       await this.fundWallet(client, defaultWallets[wallet].publicKey);
@@ -383,7 +387,7 @@ class EnvService {
         network = JSON.parse(JSON.stringify(network).replace(/localhost/g, nodeIp));
       }
 
-      const client = await utils.getClient(network);
+      const client = await getClient(network);
       const heightOptions = {
         interval: 8000,
         attempts: 300,

@@ -2,6 +2,7 @@
   "name": "aeproject",
   "version": "4.0.0-alpha1",
   "description": "",
+  "main": "src/lib/index.js",
   "bin": {
     "aeproject": "./src/cli.js"
   },

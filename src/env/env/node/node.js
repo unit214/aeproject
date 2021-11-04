@@ -1,11 +1,8 @@
-const {
-  printError,
-  print,
-} = require('../../../utils');
+const {printError, print} = require('../../../utils/utils');
 
-const nodeConfig = require('../../../config');
+const nodeConfig = require('../../../config/node-config.json');
 
-const { nodeConfiguration } = nodeConfig;
+const {nodeConfiguration} = nodeConfig;
 
 const DEFAULT_NODE_PORT = 3001;
 
@@ -19,7 +16,7 @@ class Node extends EnvService {
   async run(option) {
     const dockerImage = nodeConfiguration.dockerServiceNodeName;
 
-    let { nodeVersion } = nodeConfiguration;
+    let {nodeVersion} = nodeConfiguration;
 
     if (option.v) {
       nodeVersion = option.v;

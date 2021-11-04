@@ -1,34 +1,64 @@
 const fs = require('fs');
 const path = require('path');
+const prompts = require('prompts');
 
-// TODO replace dir, fs methods
+async function promptOverwrite(target) {
+  const response = await prompts({
+    type: 'text',
+    name: 'value',
+    message: `Do you want to overwrite '${target}'? (y/N):`,
+  });
 
-// Print helper
-const print = (msg, obj) => {
-  if (obj) {
-    console.log(msg, obj);
+  const input = response.value.trim();
+  return input === 'YES' || input === 'yes' || input === 'Y' || input === 'y'
+}
+
+async function copyFileSync(source, target) {
+  let targetFile = target;
+
+  // If target is a directory, a new file with the same name will be created
+  if (fs.existsSync(target)) {
+    if (fs.lstatSync(target).isDirectory()) {
+      targetFile = path.join(target, path.basename(source));
+    }
+  }
+
+  if (fs.existsSync(targetFile)) {
+    if (await promptOverwrite(targetFile)) {
+      fs.writeFileSync(targetFile, fs.readFileSync(source));
+    }
   } else {
-    console.log(msg);
+    fs.writeFileSync(targetFile, fs.readFileSync(source));
   }
-};
+}
 
-// Print error helper
-const printError = (msg) => {
-  console.log(msg);
-};
-
-const createMissingFolder = (dir) => {
-  if (!fs.existsSync(dir)) {
-    fs.mkdirSync(dir);
+async function copyFolderRecursiveSync(source, targetFolder) {
+  // Check if folder needs to be created or integrated
+  if (!fs.existsSync(targetFolder)) {
+    fs.mkdirSync(targetFolder);
   }
-};
+
+  // Copy
+  if (fs.lstatSync(source).isDirectory()) {
+    await fs.readdirSync(source).reduce(async (accPromise, file) => {
+      await accPromise;
+      const curSource = path.join(source, file);
+      if (fs.lstatSync(curSource).isDirectory()) {
+        return copyFolderRecursiveSync(curSource, targetFolder);
+      } else {
+        return copyFileSync(curSource, targetFolder);
+      }
+    }, Promise.resolve());
+  }
+}
+
 
 const copyFileOrDir = (sourceFileOrDir, destinationFileOrDir, copyOptions = {}) => {
   if (fs.existsSync(`${destinationFileOrDir}`) && !copyOptions.overwrite) {
     throw new Error(`${destinationFileOrDir} already exists.`);
   }
 
-  fs.copySync(sourceFileOrDir, destinationFileOrDir, copyOptions);
+  copySync(sourceFileOrDir, destinationFileOrDir, copyOptions);
 };
 
 const getFiles = async function (directory, regex) {
@@ -88,9 +118,6 @@ async function createDirIfNotExists(destination) {
 }
 
 module.exports = {
-  print,
-  printError,
-  createMissingFolder,
   copyFileOrDir,
   getFiles,
   readFile,
@@ -100,4 +127,5 @@ module.exports = {
   fileExists,
   deleteCreatedFiles,
   createDirIfNotExists,
+  copyFolderRecursiveSync,
 };

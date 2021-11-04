@@ -1,9 +1,5 @@
-const {
-  printError,
-  print,
-} = require('../../../utils');
-
-const nodeConfig = require('../../../config');
+const {printError, print} = require('../../../utils/utils');
+const nodeConfig = require('../../../config/node-config.json');
 
 const compilerConfigs = nodeConfig.compilerConfiguration;
 
@@ -18,7 +14,7 @@ class Compiler extends EnvService {
 
   async run(option) {
     const compilerImage = compilerConfigs.dockerServiceCompilerName;
-    let { compilerVersion } = compilerConfigs;
+    let {compilerVersion} = compilerConfigs;
 
     if (option.v) {
       compilerVersion = option.v;

@@ -1,5 +1,5 @@
-const {print, printError, readSpawnOutput,} = require('../../utils');
-const { nodeConfiguration, compilerConfiguration } = require('../../config');
+const {print, printError, readSpawnOutput} = require('../../utils/utils');
+const { nodeConfiguration, compilerConfiguration } = require('../../config/node-config.json');
 
 const EnvService = require('../EnvService');
 

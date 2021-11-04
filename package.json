@@ -1,7 +1,7 @@
 {
-  "name": "aeproject",
+  "name": "@aeternity/aeproject",
   "version": "4.0.0-alpha1",
-  "description": "",
+  "description": "aeternity smart contract testing tool",
   "main": "src/lib/index.js",
   "bin": {
     "aeproject": "./src/cli.js"
@@ -11,7 +11,6 @@
     "lint:fix": "eslint --ext .js --fix .",
     "lint:ci": "eslint --ext .js --max-warnings=0 ."
   },
-  "author": "",
   "license": "ISC",
   "dependencies": {
     "@aeternity/aepp-sdk": "^9.0.1",

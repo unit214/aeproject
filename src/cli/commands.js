@@ -46,12 +46,9 @@ const addTestOption = (program) => {
 const addEnvOption = (program) => {
   program
     .command('env')
-    .description('Running a local network. Without any argument node will be run with --start argument')
+    .description('Running a local network. Without any argument started with default configuration')
     .option('--stop', 'Stop the node')
-    .option('--start', 'Start the node')
     .option('--info', 'Displays information about your current node status if any, and absolute path where it has been started from')
-    .option('--windows', 'Start the node in windows env')
-    .option('--docker-ip [default docker machine ip]', `Set docker machine IP, default is "${dockerIp}"`, dockerIp)
     .option('--nodeVersion [nodeVersion]', `Specify node version, default is ${nodeConfig.imageVersion}`, nodeConfig.imageVersion)
     .option('--compilerVersion [compilerVersion]', `Specify compiler version, default is ${compilerConfig.imageVersion}`, compilerConfig.imageVersion)
     .action(async (options) => {
@@ -77,7 +74,6 @@ const addTxInspector = (program) => {
     .command('inspect <tx>')
     .description('Unpack and verify transaction (verify nonce, ttl, fee, account balance)')
     .option('--network [network]', 'Select network', 'local')
-    .option('--networkId [networkId]', 'Configure your network id')
     .action(async (tx, options) => {
       options.tx = tx;
       await txInspector.run(options);

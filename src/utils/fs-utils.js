@@ -37,7 +37,7 @@ async function copyFolderRecursiveSync(srcDir, dstDir) {
         }
       }
     }
-  });
+  }, Promise.resolve());
 }
 
 const copyFileOrDir = (sourceFileOrDir, destinationFileOrDir, copyOptions = {}) => {

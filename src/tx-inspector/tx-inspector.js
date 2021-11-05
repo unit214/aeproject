@@ -21,6 +21,7 @@ async function run(option) {
 }
 
 function printValidationResult(data) {
+  print();
   if (data) data.map((x) => {
     print(x.message);
   });

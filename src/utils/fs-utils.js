@@ -13,45 +13,32 @@ async function promptOverwrite(target) {
   return input === 'YES' || input === 'yes' || input === 'Y' || input === 'y'
 }
 
-async function copyFileSync(source, target) {
-  let targetFile = target;
+async function copyFolderRecursiveSync(srcDir, dstDir) {
+  let src, dst;
 
-  // If target is a directory, a new file with the same name will be created
-  if (fs.existsSync(target)) {
-    if (fs.lstatSync(target).isDirectory()) {
-      targetFile = path.join(target, path.basename(source));
-    }
-  }
+  return fs.readdirSync(srcDir).reduce(async (accPromise, file) => {
+    await accPromise;
+    src = path.join(srcDir, file);
+    dst = path.join(dstDir, file);
 
-  if (fs.existsSync(targetFile)) {
-    if (await promptOverwrite(targetFile)) {
-      fs.writeFileSync(targetFile, fs.readFileSync(source));
-    }
-  } else {
-    fs.writeFileSync(targetFile, fs.readFileSync(source));
-  }
-}
-
-async function copyFolderRecursiveSync(source, targetFolder) {
-  // Check if folder needs to be created or integrated
-  if (!fs.existsSync(targetFolder)) {
-    fs.mkdirSync(targetFolder);
-  }
-
-  // Copy
-  if (fs.lstatSync(source).isDirectory()) {
-    await fs.readdirSync(source).reduce(async (accPromise, file) => {
-      await accPromise;
-      const curSource = path.join(source, file);
-      if (fs.lstatSync(curSource).isDirectory()) {
-        return copyFolderRecursiveSync(curSource, targetFolder);
-      } else {
-        return copyFileSync(curSource, targetFolder);
+    const stat = fs.statSync(src);
+    if (stat && stat.isDirectory()) {
+      if (!fs.existsSync(dst)) {
+        fs.mkdirSync(dst);
       }
-    }, Promise.resolve());
-  }
-}
 
+      await copyFolderRecursiveSync(src, dst)
+    } else {
+      if (!fs.existsSync(dst)) {
+        fs.writeFileSync(dst, fs.readFileSync(src));
+      } else {
+        if (await promptOverwrite(dst)) {
+          fs.writeFileSync(dst, fs.readFileSync(src));
+        }
+      }
+    }
+  });
+}
 
 const copyFileOrDir = (sourceFileOrDir, destinationFileOrDir, copyOptions = {}) => {
   if (fs.existsSync(`${destinationFileOrDir}`) && !copyOptions.overwrite) {

@@ -1,9 +1,7 @@
 const compile = require('../compile/compile');
 const init = require('../init/init');
 const testConfig = require('../test/test');
-const env = require('../env/env/env');
-const node = require('../env/env/node/node');
-const compiler = require('../env/env/compiler/compiler');
+const env = require('../env/env');
 const deploy = require('../deploy/deploy');
 const config = require('../config/node-config.json');
 
@@ -61,34 +59,6 @@ const addEnvOption = (program) => {
     });
 };
 
-const addNodeOption = (program) => {
-  program
-    .command('node')
-    .description('Running a local node. Without any argument node will be run with --start argument')
-    .option('--stop', 'Stop the node')
-    .option('--start', 'Start the node')
-    .option('--info', 'Displays information about your current node status if any, and absolute path where it has been started from')
-    .option('--windows', 'Start the node in windows env')
-    .option('--docker-ip [default docker machine ip]', `Set docker machine IP, default is "${dockerIp}"`, dockerIp)
-    .option('--v [v]', `Specify node version, default is ${nodeConfig.imageVersion}`, nodeConfig.imageVersion)
-    .action(async (options) => {
-      await node.run(options);
-    });
-};
-
-const addCompilerOption = (program) => {
-  program
-    .command('compiler')
-    .description('Running a local compiler. Without any arguments compiler will be run with --start argument')
-    .option('--stop', 'Stop the node')
-    .option('--start', 'Start the node')
-    .option('--info', 'Displays information about your current node status if any, and absolute path where it has been started from')
-    .option('--v [v]', `Specify compiler version, default is ${compilerConfig.imageVersion}`, compilerConfig.imageVersion)
-    .action(async (options) => {
-      await compiler.run(options);
-    });
-};
-
 const addDeployOption = (program) => {
   program
     .command('deploy')
@@ -132,8 +102,6 @@ const initCommands = (program) => {
   addCompileOption(program);
   addTestOption(program);
   addEnvOption(program);
-  addNodeOption(program);
-  addCompilerOption(program);
   addDeployOption(program);
   addTxInspector(program);
   addCompatibility(program);

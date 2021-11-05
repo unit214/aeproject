@@ -1,7 +1,7 @@
 const p = require('path');
 const {print} = require("../utils/utils");
 const {getFiles} = require("../utils/fs-utils");
-const contractUtils = require("../utils/contract-utils");
+const contractUtils = require("../lib/utils");
 const nodeConfig = require("../config/node-config.json");
 
 const run = async (path) => {

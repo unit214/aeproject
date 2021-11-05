@@ -4,6 +4,7 @@ services:
   node:
     image: aeternity/aeternity:${NODE_TAG}-bundle
     hostname: node
+    container_name: aeproject_node
     environment:
       AETERNITY_CONFIG: /home/aeternity/aeternity.yaml
     volumes:
@@ -13,12 +14,14 @@ services:
   compiler:
     image: aeternity/aesophia_http:${COMPILER_TAG}
     hostname: compiler
+    container_name: aeproject_compiler
     ports:
       - '3080:3080'
 
   proxy:
     image: nginx:latest
     hostname: proxy
+    container_name: aeproject_proxy
     ports:
       - '3001:3001'
     volumes:

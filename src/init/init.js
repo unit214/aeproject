@@ -1,5 +1,8 @@
+const {exec} = require('promisify-child-process');
+
 const constants = require('./constants.json');
-const {execute, print} = require('../utils/utils');
+const {print} = require('../utils/utils');
+
 const {copyFolderRecursiveSync, fileExists} = require('../utils/fs-utils');
 
 async function run(update) {
@@ -31,7 +34,7 @@ const updateAEprojectProjectLibraries = async () => {
 const installDependencies = async (_sdkVersion = '') => {
   if (fileExists('./package.json')) {
     print('===== installing dependencies =====');
-    await execute(/^win/.test(process.platform) ? 'npm.cmd' : 'npm', 'install');
+    await exec(/^win/.test(process.platform) ? 'npm.cmd install' : 'npm install');
   }
 };
 

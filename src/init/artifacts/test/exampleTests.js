@@ -1,6 +1,6 @@
 const {assert} = require('chai');
 const {Universal, MemoryAccount, Node} = require('@aeternity/aepp-sdk');
-const {wallets, networks, utils} = require('aeproject');
+const {wallets, networks, utils} = require('@aeternity/aeproject');
 
 const EXAMPLE_CONTRACT_SOURCE = './contracts/ExampleContract.aes';
 

@@ -25,9 +25,7 @@ const addInitOption = (program) => {
 const addCompileOption = (program) => {
   program
     .command('compile')
-    .option('-p --path [compile path]', 'Path to contract files', './contracts')
-    .option('-c --compiler [compiler url]', 'Url to the desired compiler', config.compilerUrl)
-    .description('Compile contracts')
+    .description(compile.deprecatedMessage)
     .action(async (option) => {
       await compile.run(option.path, option.compiler);
     });

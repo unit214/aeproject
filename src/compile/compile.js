@@ -1,10 +1,12 @@
-const config = require('../config/config.json');
+const { print } = require('../utils/utils');
 
-async function run(path, compilerUrl = config.compilerUrl) {
-  print('===== Compiling contracts =====');
-  // TODO replace with ae cli
+const deprecatedMessage = 'Compiling contracts from aeproject has been removed, please use aecli, npm i -g @aeternity/aepp-cli';
+
+async function run() {
+  print(deprecatedMessage);
 }
 
 module.exports = {
   run,
+  deprecatedMessage,
 };

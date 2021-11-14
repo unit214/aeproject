@@ -1,5 +1,5 @@
-const {verifyTransaction, Node} = require('@aeternity/aepp-sdk');
-const {print, getNetwork} = require('../utils/utils');
+const { verifyTransaction, Node } = require('@aeternity/aepp-sdk');
+const { print, getNetwork } = require('../utils/utils');
 
 const base64regex = /^([0-9a-zA-Z+/]{4})*(([0-9a-zA-Z+/]{2}==)|([0-9a-zA-Z+/]{3}=))?$/;
 
@@ -14,7 +14,7 @@ async function run(option) {
 
   const network = getNetwork(option.network ? option.network : 'local', option.networkId);
 
-  const node = await Node({url: network.url, ignoreVersion: true})
+  const node = await Node({ url: network.url, ignoreVersion: true });
   const result = await verifyTransaction(option.tx, node);
 
   printValidationResult(result);
@@ -22,9 +22,11 @@ async function run(option) {
 
 function printValidationResult(data) {
   print();
-  if (data) data.map((x) => {
-    print(x.message);
-  });
+  if (data) {
+    data.map((x) => {
+      print(x.message);
+    });
+  }
 }
 
 module.exports = {

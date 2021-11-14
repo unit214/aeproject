@@ -29,8 +29,15 @@ describe('ExampleContract', () => {
     await utils.rollbackSnapshot(client);
   });
 
-  it('call ExampleContract', async () => {
-    const { decodedResult } = await contract.methods.example(42);
+  it('ExampleContract: set and get', async () => {
+    await contract.methods.set(42);
+
+    const { decodedResult } = await contract.methods.get();
     assert.equal(decodedResult, 42);
+  });
+
+  it('ExampleContract: get undefined when not set before', async () => {
+    const { decodedResult } = await contract.methods.get();
+    assert.equal(decodedResult, undefined);
   });
 });

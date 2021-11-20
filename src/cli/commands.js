@@ -6,7 +6,6 @@ const deploy = require('../deploy/deploy');
 const config = require('../config/node-config.json');
 
 const dockerIp = config.nodeConfiguration.dockerMachineIP;
-const txInspector = require('../tx-inspector/tx-inspector');
 const compatibility = require('../compatibility/compatibility');
 
 const nodeConfig = config.nodeConfiguration;
@@ -66,17 +65,6 @@ const addDeployOption = (program) => {
     });
 };
 
-const addTxInspector = (program) => {
-  program
-    .command('inspect <tx>')
-    .description('Unpack and verify transaction (verify nonce, ttl, fee, account balance)')
-    .option('--network [network]', 'Select network', 'local')
-    .action(async (tx, options) => {
-      options.tx = tx;
-      await txInspector.run(options);
-    });
-};
-
 const addCompatibility = (program) => {
   program
     .command('compatibility')
@@ -96,7 +84,6 @@ const initCommands = (program) => {
   addTestOption(program);
   addEnvOption(program);
   addDeployOption(program);
-  addTxInspector(program);
   addCompatibility(program);
 };
 

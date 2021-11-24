@@ -1,5 +1,5 @@
 const { assert } = require('chai');
-const { utils } = require('@aeternity/aeproject');
+const { utils, wallets } = require('@aeternity/aeproject');
 
 const EXAMPLE_CONTRACT_SOURCE = './contracts/ExampleContract.aes';
 
@@ -14,10 +14,10 @@ describe('ExampleContract', () => {
     const filesystem = utils.getFilesystem(EXAMPLE_CONTRACT_SOURCE);
 
     // get content of contract
-    const contract_content = utils.getContractContent(EXAMPLE_CONTRACT_SOURCE);
+    const source = utils.getContractContent(EXAMPLE_CONTRACT_SOURCE);
 
     // initialize the contract instance
-    contract = await client.getContractInstance(contract_content, { filesystem });
+    contract = await client.getContractInstance(source, { filesystem });
     await contract.deploy();
 
     // create a snapshot of the blockchain state
@@ -30,7 +30,10 @@ describe('ExampleContract', () => {
   });
 
   it('ExampleContract: set and get', async () => {
-    await contract.methods.set(42);
+    const set = await contract.methods.set(42);
+    assert.equal(set.decodedEvents[0].name, 'SetXEvent')
+    assert.equal(set.decodedEvents[0].decoded[0], wallets[0].publicKey);
+    assert.equal(set.decodedEvents[0].decoded[1], 42);
 
     const { decodedResult } = await contract.methods.get();
     assert.equal(decodedResult, 42);

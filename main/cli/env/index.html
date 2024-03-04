@@ -425,11 +425,11 @@
 <div class="highlight"><pre><span></span><code>aeproject env --stop
 </code></pre></div></p>
 <p>There are optional parameters <strong>--nodeVersion</strong> and <strong>--compilerVersion</strong>. To specify a specific version of node or compiler, or both
-<div class="highlight"><pre><span></span><code>aeproject env --nodeVersion v6.11.0
+<div class="highlight"><pre><span></span><code>aeproject env --nodeVersion v6.12.0
 # or
-aeproject env --compilerVersion v7.5.0
+aeproject env --compilerVersion v7.6.1
 # or
-aeproject env --nodeVersion v6.11.0 --compilerVersion v7.5.0
+aeproject env --nodeVersion v6.12.0 --compilerVersion v7.6.1
 </code></pre></div>
 This also applies to the commands <code>aeproject node</code> and <code>aeproject compiler</code>.</p>
 <p>To see whether you have running instances of the nodes along with a compiler you could run the following command
@@ -437,6 +437,7 @@ This also applies to the commands <code>aeproject node</code> and <code>aeprojec
 </code></pre></div></p>
 <p><strong>Note</strong>: By default AEproject uses the <code>latest-bundle</code> tag of the official <a href="https://hub.docker.com/r/aeternity/aeternity/tags">docker images</a>.</p>
 <p><strong>Compatibility</strong>:
+ - aeproject until <code>v4.8.3</code> is only compatible with node versions <code>NODE_TAG &lt;= v6.11.0</code> due to some changes in the devmode plugin
  - aeproject uses the <code>-bundle</code> node docker images including dev mode, which are only published from <code>NODE_TAG &gt;= v6.3.0</code>
  - the default <code>aeternity.yaml</code> config file that ships with aeproject supports <code>NODE_TAG &gt;= v6.8.0</code>
  - the latest <code>@aeternity/aepp-sdk@13</code> is only compatible using <code>NODE_TAG &gt;= v6.0.0</code> and <code>COMPILER_TAG &gt;= v7.5.0</code>

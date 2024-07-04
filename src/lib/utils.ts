@@ -67,7 +67,7 @@ export function getDefaultAccounts(): MemoryAccount[] {
   return wallets.map((keypair) => new MemoryAccount(keypair.secretKey));
 }
 
-export function getSdk(options: {}): AeSdk {
+export function getSdk(options: object = {}): AeSdk {
   const instance = new Node(networks.devmode.nodeUrl, options);
 
   return new AeSdk({

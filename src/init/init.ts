@@ -1,18 +1,15 @@
-const fs = require("fs");
-const path = require("path");
+import fs from "fs";
+import path from "path";
 
-const { exec } = require("promisify-child-process");
+import { exec } from "promisify-child-process";
 
-const constants = require("./constants.json");
-const packageJson = require("../../package.json");
-const { print } = require("../utils/utils");
+import constants from "./constants.json";
+import packageJson from "../../package.json";
+import { print } from "../utils/utils";
 
-const {
-  copyFolderRecursiveSync,
-  deleteWithPrompt,
-} = require("../utils/fs-utils");
+import { copyFolderRecursiveSync, deleteWithPrompt } from "../utils/fs-utils";
 
-async function run(folder, update, next, y) {
+export async function run(folder, update, next, y) {
   checkNodeVersion();
   createFolder(folder);
 
@@ -131,8 +128,4 @@ const updateArtifacts = async (folder, y) => {
   }, Promise.resolve());
 
   await copyFolderRecursiveSync(fileSource, folder, y);
-};
-
-module.exports = {
-  run,
 };

@@ -2,17 +2,15 @@
   "name": "@aeternity/aeproject",
   "version": "4.10.0",
   "description": "aeternity smart contract testing tool",
-  "main": "./.build/esm/src/lib/index.js",
-  "types": "./.build/types/src/lib/index.d.ts",
+  "main": "./.dist/lib.index.esm.js",
   "bin": {
-    "aeproject": ".build/esm/src/cli.js"
+    "aeproject": "dist/cli.esm.mjs"
   },
   "exports": {
     ".": {
-      "types": "./.build/types/src/lib/index.d.ts",
-      "require": "./.build/cjs/src/lib/index.js",
-      "import": "./.build/esm/src/lib/index.js",
-      "default": "./.build/esm/src/lib/index.js"
+      "require": "./dist/lib.index.cjs.js",
+      "import": "./dist/lib.index.esm.js",
+      "default": "./dist/lib.index.esm.js"
     }
   },
   "files": [
@@ -24,7 +22,7 @@
     "lint": "eslint .",
     "lint:fix": "eslint --ext .js --fix .",
     "lint:ci": "eslint --ext .js --max-warnings=0 .",
-    "test": "mocha ./tests/**/*.js --timeout 0 --exit",
+    "test": "mocha --import=tsx ./tests/**/*.js --timeout 0 --exit",
     "prepack": "npm run build:clean && npm run build",
     "copy-files": "cp -r ./src/init/artifacts ./.build/cjs/src/init/ && cp -r ./src/init/artifacts ./.build/esm/src/init/ && cp -r ./src/init/update-artifacts ./.build/cjs/src/init/ && cp -r ./src/init/update-artifacts ./.build/esm/src/init/ && cp -r ./src/init/next-artifacts ./.build/cjs/src/init/ && cp -r ./src/init/next-artifacts ./.build/esm/src/init/",
     "link:local": "npm uninstall -g @aeternity/aeproject && npm run build:clean && npm run build && npm link"
@@ -36,20 +34,39 @@
   },
   "dependencies": {
     "@aeternity/aepp-sdk": "^13.3.2",
-    "commander": "^12.0.0",
+    "@rollup/plugin-node-resolve": "^15.2.3",
+    "commander": "^12.1.0",
     "promisify-child-process": "^4.1.2",
-    "prompts": "^2.4.2"
+    "prompts": "^2.4.2",
+    "vitest": "^1.6.0"
+  },
+  "overrides": {
+    "@aeternity/aepp-sdk": {
+      "@ledgerhq/hw-transport": "6.30.6"
+    }
   },
   "devDependencies": {
-    "@typescript-eslint/eslint-plugin": "^7.7.1",
-    "@typescript-eslint/parser": "^7.7.1",
-    "chai": "^4.4.1",
+    "@aeternity/aeproject": "file:.",
+    "@rollup/plugin-esm-shim": "^0.1.7",
+    "@rollup/plugin-json": "^6.1.0",
+    "@rollup/plugin-typescript": "^11.1.6",
+    "@types/chai": "^4.3.16",
+    "@types/commander": "^2.12.2",
+    "@types/mocha": "^10.0.7",
+    "@typescript-eslint/eslint-plugin": "^7.15.0",
+    "@typescript-eslint/parser": "^7.15.0",
+    "chai": "^5.1.1",
     "chai-files": "^1.4.0",
     "eslint": "^8.57.0",
     "eslint-config-prettier": "^9.1.0",
     "eslint-plugin-prettier": "^5.1.3",
-    "mocha": "^10.4.0",
-    "prettier": "^3.2.5",
-    "typescript": "^5.4.5"
+    "mocha": "^10.6.0",
+    "prettier": "^3.3.2",
+    "rollup": "^4.18.0",
+    "rollup-plugin-node-globals": "^1.4.0",
+    "rollup-plugin-typescript2": "^0.36.0",
+    "tsx": "^4.16.2",
+    "typescript": "^5.5.3",
+    "vite": "^5.3.3"
   }
 }

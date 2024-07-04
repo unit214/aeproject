@@ -1,9 +1,9 @@
 #! /usr/bin/env node
 
-const program = require("commander").program;
+import { program } from "commander";
 
-const commands = require("./cli/commands");
-const packageJson = require("../package.json");
+import { initCommands } from "./cli/commands.js";
+import packageJson from "../package.json";
 
 const setupVersion = () => {
   program.version(packageJson.version);
@@ -16,7 +16,7 @@ const setupDefaultHandler = () => {
 };
 
 const setupCommands = () => {
-  commands.initCommands(program);
+  initCommands(program);
 };
 
 const parseParams = () => {

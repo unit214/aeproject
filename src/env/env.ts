@@ -1,6 +1,6 @@
-const { spawn, exec } = require("promisify-child-process");
+import { spawn, exec } from "promisify-child-process";
 
-const { print, printError } = require("../utils/utils");
+import { print, printError } from "../utils/utils";
 
 let dockerComposeCmd = "docker compose";
 
@@ -20,7 +20,7 @@ async function getDockerCompose() {
   throw new Error("===== docker compose is not installed! =====");
 }
 
-async function isEnvRunning(cwd = "./") {
+export async function isEnvRunning(cwd = "./") {
   const info = await getInfo(cwd);
 
   if (info) {
@@ -38,7 +38,7 @@ async function isEnvRunning(cwd = "./") {
   return false;
 }
 
-async function run(option) {
+export async function run(option) {
   const running = await isEnvRunning();
 
   if (option.info) {
@@ -124,13 +124,10 @@ async function getInfo(cwd = "./", imagesOnly = false) {
   const images = await exec(`${dockerComposeCmd} images`, { cwd });
 
   if (ps && images && ps.stdout && images.stdout) {
-    return imagesOnly ? images.stdout : `${ps.stdout}\n${images.stdout}`;
+    return imagesOnly
+      ? images.stdout.toString()
+      : `${ps.stdout}\n${images.stdout}`;
   }
 
   return null;
 }
-
-module.exports = {
-  run,
-  isEnvRunning,
-};

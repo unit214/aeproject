@@ -1,7 +1,7 @@
-const init = require("../init/init");
-const testConfig = require("../test/test");
-const env = require("../env/env");
-const constants = require("../init/constants.json");
+import * as init from "../init/init";
+import * as testConfig from "../test/test";
+import * as env from "../env/env";
+import constants from "../init/constants.json";
 
 const addInitOption = (program) => {
   program
@@ -57,12 +57,8 @@ const addEnvOption = (program) => {
     });
 };
 
-const initCommands = (program) => {
+export const initCommands = (program) => {
   addInitOption(program);
   addTestOption(program);
   addEnvOption(program);
-};
-
-module.exports = {
-  initCommands,
 };

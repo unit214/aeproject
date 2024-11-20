@@ -428,26 +428,20 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#changes" class="md-nav__link">
+  <a href="#various-changes" class="md-nav__link">
     <span class="md-ellipsis">
-      Changes
+      Various Changes
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="Changes">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
+</li>
+      
+        <li class="md-nav__item">
   <a href="#removed-from-libs" class="md-nav__link">
     <span class="md-ellipsis">
       Removed from libs
     </span>
   </a>
-  
-</li>
-        
-      </ul>
-    </nav>
   
 </li>
       
@@ -506,26 +500,20 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#changes" class="md-nav__link">
+  <a href="#various-changes" class="md-nav__link">
     <span class="md-ellipsis">
-      Changes
+      Various Changes
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="Changes">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
+</li>
+      
+        <li class="md-nav__item">
   <a href="#removed-from-libs" class="md-nav__link">
     <span class="md-ellipsis">
       Removed from libs
     </span>
   </a>
-  
-</li>
-        
-      </ul>
-    </nav>
   
 </li>
       
@@ -545,12 +533,15 @@
 
 
 <h1 id="migration-from-4xx-to-5xx">Migration from 4.x.x to 5.x.x</h1>
-<h2 id="changes">Changes</h2>
-<p><strong>AEproject</strong> <code>v5.0.0</code> underwent some minor but breaking changes.</p>
-<p>Install the new AEproject version</p>
+<p><strong>AEproject</strong> <code>v5.0.0</code> underwent some breaking changes.</p>
+<p>Install the latest AEproject version</p>
 <div class="highlight"><pre><span></span><code>npm install -g @aeternity/aeproject
 </code></pre></div>
-<h3 id="removed-from-libs">Removed from libs</h3>
+<h2 id="various-changes">Various Changes</h2>
+<ul>
+<li><strong>dropped commonjs support</strong>, newly created projects will be created as esm projects, old cjs projects will not continue to work with newer aeproject versions, to keep using old cjs projects, <code>@aeternity/aeproject@4</code> will continue to work for now.</li>
+</ul>
+<h2 id="removed-from-libs">Removed from libs</h2>
 <p>Following utils have been removed and cannot be used anymore:</p>
 <ul>
 <li><code>utils.getFilesystem()</code> discontinued, as it is now natively available in the sdk via import, e.g. <code>const { getFileSystem } = require("@aeternity/aepp-sdk");</code></li>

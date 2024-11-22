@@ -1,8 +1,9 @@
 import { utils } from "@aeternity/aeproject";
-import { getFileSystem } from "@aeternity/aepp-sdk";
+import * as AeppSdk from "@aeternity/aepp-sdk";
+import { Contract, getFileSystem } from "@aeternity/aepp-sdk";
+import * as chai from "chai";
 import { assert } from "chai";
 import chaiAsPromised from "chai-as-promised";
-import * as chai from "chai";
 
 chai.use(chaiAsPromised);
 
@@ -13,8 +14,7 @@ describe("ExampleContract", () => {
   let contract;
 
   before(async () => {
-    aeSdk = utils.getSdk();
-
+    aeSdk = utils.getSdk(AeppSdk, {});
     // a filesystem object must be passed to the compiler if the contract uses custom includes
     const fileSystem = await getFileSystem(EXAMPLE_CONTRACT_SOURCE);
 
@@ -22,7 +22,11 @@ describe("ExampleContract", () => {
     const sourceCode = utils.getContractContent(EXAMPLE_CONTRACT_SOURCE);
 
     // initialize the contract instance
-    contract = await aeSdk.initializeContract({ sourceCode, fileSystem });
+    contract = await Contract.initialize({
+      ...aeSdk.getContext(),
+      sourceCode,
+      fileSystem,
+    });
     await contract.init();
 
     // create a snapshot of the blockchain state

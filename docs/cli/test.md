@@ -17,14 +17,16 @@ In the `test/exampleTest.js` file you can find an example for unit testing using
 Javascript testing framework used with [mocha](https://mochajs.org/) for assertions, documented at https://www.chaijs.com/api/assert/
 
 ```js
-const { assert } = require("chai");
+import { assert } from "chai";
+import { before, describe, afterEach, it } from "mocha";
 ```
 
 Helper and utilities for AEproject use, e.g. prefunded wallets, network definition and utility functions for SDK initialization and snapshotting.
 
 ```js
-const { networks, utils, wallets } = require("@aeternity/aeproject");
-const { getFileSystem } = require("@aeternity/aepp-sdk");
+import { utils } from "@aeternity/aeproject";
+import * as AeppSdk from "@aeternity/aepp-sdk";
+import { Contract, getFileSystem } from "@aeternity/aepp-sdk";
 ```
 
 Read [AEproject Library](../lib.md) for a more detailed explanation about the usage of these imports.
@@ -40,7 +42,7 @@ before(async () => ...)
 Initialize the default SDK instance with provided utils:
 
 ```js
-aeSdk = utils.getSdk();
+aeSdk = utils.getSdk(AeppSdk, {});
 ```
 
 Get the filesystem definition for (custom) `includes` of the given contract:
@@ -58,7 +60,7 @@ const sourceCode = utils.getContractContent(EXAMPLE_CONTRACT_SOURCE);
 Initialize the contract instance:
 
 ```js
-contract = await aeSdk.initializeContract({ sourceCode, fileSystem });
+contract = await Contract.initialize({ ...aeSdk.getContext(), sourceCode, fileSystem });
 ```
 
 Deploy the contract:

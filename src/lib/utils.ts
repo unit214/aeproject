@@ -1,6 +1,11 @@
 import fs from "fs";
-
-import { AeSdk, MemoryAccount, Node, CompilerHttp } from "@aeternity/aepp-sdk";
+import {
+  AeSdk,
+  CompilerHttp,
+  Encoded,
+  MemoryAccount,
+  Node,
+} from "@aeternity/aepp-sdk";
 import { readFile } from "fs/promises";
 
 export const networks = JSON.parse(
@@ -20,7 +25,10 @@ export function getContractContent(contractPath: string): string {
 }
 
 export function getDefaultAccounts(): MemoryAccount[] {
-  return wallets.map((keypair) => new MemoryAccount(keypair.secretKey));
+  return wallets.map(
+    (keypair) =>
+      new MemoryAccount(keypair.secretKey as Encoded.AccountSecretKey),
+  );
 }
 
 export function getSdk(options: {}): AeSdk {
